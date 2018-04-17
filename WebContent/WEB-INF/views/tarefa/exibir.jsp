@@ -5,6 +5,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="assets/css/bootstrap.css">
+		<link rel="stylesheet" href="assets/css/jquery-ui.css">
+		<script src="assets/js/jquery.js" type="text/javascript"></script>
+		<script src="assets/js/jquery-ui.js" type="text/javascript"></script>
 		<title>Gerenciador de Tarefas</title>
 	</head>
 	<body>
@@ -16,7 +19,10 @@
 			Finalizada
 			<input name="finalizado" type="checkbox" ${tarefa.finalizado ? "checked" : "" } /><br/>
 			Data de Conclusão:
-			<input name="dataFinalizacao" type="text" value="<fmt:formatDate value="${tarefa.dataFinalizacao}" pattern="dd/MM/yyyy" />" /><br/>
+			<input name="dataFinalizacao" id="dataFinalizacao" type="text" value="<fmt:formatDate value="${tarefa.dataFinalizacao.time}" pattern="dd/MM/yyyy"/>"><br/>
+			<script type="text/javascript">
+				$("#dataFinalizacao").datepicker({dateFormat: 'dd/mm/yy', changeYear: true})
+			</script>
 			<p><input type="submit" value="Salvar" />			
 		</form>
 		
