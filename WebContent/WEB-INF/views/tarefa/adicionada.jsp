@@ -8,6 +8,8 @@
 		<title>Gerenciador de Tarefas</title>
 	</head>
 	<body>
+		<a href="/fj21-tarefas">Página Inicial</a>
+		<a href="novaTarefa">Nova Tarefa </a>
 		<h2><fmt:message key="tarefa.adicionada" /></h2>
 	</body>
 </html>

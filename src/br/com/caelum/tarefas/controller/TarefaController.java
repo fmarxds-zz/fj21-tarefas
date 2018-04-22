@@ -4,16 +4,25 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.caelum.tarefas.dao.JdbcTarefaDao;
 import br.com.caelum.tarefas.modelo.Tarefa;
 
 @Controller
 public class TarefaController {
+	
+	private final JdbcTarefaDao dao;
+	
+	@Autowired
+	public TarefaController(JdbcTarefaDao dao) {
+		this.dao = dao;
+	}
 	
 	@RequestMapping("novaTarefa")
 	public String formulario() {		
@@ -28,7 +37,6 @@ public class TarefaController {
 			return "tarefa/formulario";
 		}
 		
-		JdbcTarefaDao dao = new JdbcTarefaDao();
 		dao.adiciona(tarefa);
 		
 		return "tarefa/adicionada";
@@ -37,7 +45,6 @@ public class TarefaController {
 	@RequestMapping("listaTarefas")
 	public String lista(Model model) {
 		
-		JdbcTarefaDao dao = new JdbcTarefaDao();
 		List<Tarefa> tarefas = dao.lista();
 		
 		model.addAttribute("tarefas", tarefas);
@@ -48,29 +55,34 @@ public class TarefaController {
 	@RequestMapping("exibeTarefa")
 	public String exibe(Long id, Model model) {
 		
-		JdbcTarefaDao dao = new JdbcTarefaDao();
 		Tarefa tarefa = dao.buscaPorId(id);
 		model.addAttribute("tarefa", tarefa);
 		
 		return "tarefa/exibir";
 	}
 	
+	@ResponseBody
+	@RequestMapping("finalizaTarefa")
+	public void finaliza(Tarefa tarefa) {
+		
+		dao.finaliza(tarefa.getId());
+		
+	}
+	
 	@RequestMapping("modificarTarefa")
 	public String modificar(Tarefa tarefa) {
 		
-		JdbcTarefaDao dao = new JdbcTarefaDao();
 		dao.altera(tarefa);
 			
 		return "redirect:listaTarefas";
 	}
 	
+	@ResponseBody
 	@RequestMapping("excluirTarefa")
-	public String excluir(Tarefa tarefa) {
+	public void excluir(Tarefa tarefa) {
 		
-		JdbcTarefaDao dao = new JdbcTarefaDao();
 		dao.remove(tarefa);
 		
-		return "redirect:listaTarefas";
 	}
 
 }
