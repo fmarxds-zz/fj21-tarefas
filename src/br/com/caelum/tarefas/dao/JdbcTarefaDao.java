@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import br.com.caelum.tarefas.modelo.Tarefa;
 
 @Component
-public class JdbcTarefaDao {
+public class JdbcTarefaDao implements TarefaDao {
 	private final Connection connection;
 
 	@Autowired
@@ -123,7 +123,9 @@ public class JdbcTarefaDao {
 		}
 	}
 
-	public void finaliza(Long id) {
+	public void finaliza(Tarefa tarefa) {
+		
+		Long id = tarefa.getId();
 
 		if (id == null) {
 			throw new IllegalStateException("Id da tarefa não deve ser nula.");
@@ -159,4 +161,5 @@ public class JdbcTarefaDao {
 		}
 		return tarefa;
 	}
+
 }

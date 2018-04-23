@@ -1,23 +1,23 @@
 package br.com.caelum.tarefas.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.caelum.tarefas.dao.JdbcUsuarioDao;
+import br.com.caelum.tarefas.dao.UsuarioDao;
 import br.com.caelum.tarefas.modelo.Usuario;
 
 @Controller
+@Transactional
 public class LoginController {
 	
-	private final JdbcUsuarioDao dao;
-	
 	@Autowired
-	public LoginController(JdbcUsuarioDao dao) {
-		this.dao = dao;
-	}
+	@Qualifier("jdbcUsuarioDao")
+	private UsuarioDao dao;
 
 	@RequestMapping("loginForm")
 	public String loginForm() {

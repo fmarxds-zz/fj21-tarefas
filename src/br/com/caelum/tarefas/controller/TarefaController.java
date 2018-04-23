@@ -2,27 +2,27 @@ package br.com.caelum.tarefas.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.caelum.tarefas.dao.JdbcTarefaDao;
+import br.com.caelum.tarefas.dao.TarefaDao;
 import br.com.caelum.tarefas.modelo.Tarefa;
 
 @Controller
+@Transactional
 public class TarefaController {
 	
-	private final JdbcTarefaDao dao;
-	
+	@Qualifier("jpaTarefaDao")
 	@Autowired
-	public TarefaController(JdbcTarefaDao dao) {
-		this.dao = dao;
-	}
+	private TarefaDao dao;
 	
 	@RequestMapping("novaTarefa")
 	public String formulario() {		
@@ -65,7 +65,7 @@ public class TarefaController {
 	@RequestMapping("finalizaTarefa")
 	public void finaliza(Tarefa tarefa) {
 		
-		dao.finaliza(tarefa.getId());
+		dao.finaliza(tarefa);
 		
 	}
 	
